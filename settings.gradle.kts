@@ -15,4 +15,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "xkcd Viewer"
 include(":app")
- 
+include(":common")
+include(":domain")
+include(":data")
