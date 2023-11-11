@@ -30,6 +30,9 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    packaging {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
@@ -39,9 +42,12 @@ dependencies {
     implementation(project(":data"))
 
     implementation(libs.hiltAndroid)
-    ksp(libs.hilt.compiler)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.androidx.junit.ktx)
+    ksp(libs.hilt.android.compiler)
 
     testImplementation(libs.junit)
+    androidTestImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
