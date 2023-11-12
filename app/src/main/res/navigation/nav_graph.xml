@@ -7,24 +7,29 @@
     <fragment
         android:id="@+id/comicsFragment"
         android:name="com.andreborud.xkcdviewer.comics.ComicsFragment"
-        android:label="Comics" >
-        <argument
-            android:name="comicNumber"
-            app:argType="string"/>
-    </fragment>
+        android:label="Comics" />
 
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.andreborud.xkcdviewer.search.SearchFragment"
-        android:label="Search" >
-        <action
-            android:id="@+id/action_searchFragment_to_comicsFragment"
-            app:destination="@id/comicsFragment" />
-    </fragment>
+        android:label="Search" />
 
     <fragment
         android:id="@+id/savedFragment"
         android:name="com.andreborud.xkcdviewer.saved.SavedFragment"
-        android:label="Saved" />
+        android:label="Saved">
+        <action
+            android:id="@+id/action_savedFragment_to_comicsFragment"
+            app:destination="@id/comicFragmentLocal" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/comicFragmentLocal"
+        android:name="com.andreborud.xkcdviewer.comics.ComicsFragment"
+        android:label="Comic">
+        <argument
+            android:name="comic"
+            app:argType="java.io.Serializable" />
+    </fragment>
 
 </navigation>

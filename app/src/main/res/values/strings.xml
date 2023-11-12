@@ -12,4 +12,5 @@
     <string name="comic_title">%1$s (#%2$s)</string>
     <string name="explanation">View Explanation</string>
     <string name="search_hint">Enter any comic number between 1 and %1$s</string>
+    <string name="empty">You haven\'t save any comics yet</string>
 </resources>

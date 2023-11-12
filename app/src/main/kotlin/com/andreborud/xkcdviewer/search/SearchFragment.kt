@@ -16,22 +16,20 @@ import com.andreborud.xkcdviewer.databinding.FragmentSearchBinding
 import com.andreborud.xkcdviewer.extensions.ComicNumberFilter
 import com.andreborud.xkcdviewer.extensions.viewBinding
 
-class SearchFragment: Fragment(R.layout.fragment_search) {
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
-    private val viewModel: SearchViewModel by viewModels()
     private val binding by viewBinding(FragmentSearchBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences("ComicPrefs", Context.MODE_PRIVATE)
-        val latestComicNumber = sharedPreferences.getInt("latestNumber", 1)
+        val sharedPreferences = requireContext().getSharedPreferences(ComicsFragment.PREFS, Context.MODE_PRIVATE)
+        val latestComicNumber = sharedPreferences.getInt(ComicsFragment.LATEST, 1)
         binding.search.hint = getString(R.string.search_hint, latestComicNumber.toString())
         binding.search.filters = arrayOf(ComicNumberFilter(1, latestComicNumber))
 
         binding.search.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                performSearchAndNavigate(v.text.toString())
                 loadComicsFragment(v.text.toString())
                 hideSoftKeyboard()
                 true // Return true, action handled
@@ -42,17 +40,15 @@ class SearchFragment: Fragment(R.layout.fragment_search) {
     }
 
     private fun loadComicsFragment(comicNumber: String) {
-        // Create an instance of ComicsFragment and set its arguments
         val fragment = ComicsFragment().apply {
             arguments = Bundle().apply {
-                putString("comicNumber", comicNumber)
+                putString(ComicsFragment.COMIC_NUMBER, comicNumber)
             }
         }
 
-        // Perform the fragment transaction
         childFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null) // Optional, if you want to add this transaction to the back stack
+            .addToBackStack(null)
             .commit()
     }
 

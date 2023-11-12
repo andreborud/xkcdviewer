@@ -3,6 +3,7 @@ package com.andreborud.common
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
+import java.io.Serializable
 
 @Entity
 data class XkcdComic(
@@ -18,7 +19,7 @@ data class XkcdComic(
     val title: String,
     val transcript: String,
     val year: String
-) {
+): Serializable {
 
     fun getNextComicNumber(latestNumber: Int): Int {
         val nextNumber = num + 1

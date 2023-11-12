@@ -11,6 +11,7 @@ import com.andreborud.data.remote.ComicsRemoteRepositoryImpl
 import com.andreborud.domain.local.ComicLocalUseCases
 import com.andreborud.domain.remote.GetLatestComicRemoteUseCase
 import com.andreborud.domain.remote.GetSpecificComicRemoteUseCase
+import com.andreborud.xkcdviewer.extensions.ImagePersistence
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -84,4 +85,7 @@ object DomainModule {
     fun provideComicLocalUseCases(comicsLocalRepository: ComicsLocalRepository): ComicLocalUseCases {
         return ComicLocalUseCases(comicsLocalRepository)
     }
+
+    @Provides
+    fun provideComicPersistence(@ApplicationContext appContext: Context): ImagePersistence = ImagePersistence(appContext)
 }
