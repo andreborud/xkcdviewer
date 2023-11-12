@@ -13,9 +13,26 @@ data class XkcdComic(
     val month: String,
     val news: String,
     @PrimaryKey val num: Int,
-    @Json(name="safe_title")
+    @Json(name = "safe_title")
     val safeTitle: String,
     val title: String,
     val transcript: String,
     val year: String
-)
+) {
+
+    fun getNextComicNumber(latestNumber: Int): Int {
+        val nextNumber = num + 1
+        if (nextNumber > latestNumber) {
+            throw IsLatestComicExceptions()
+        }
+        return nextNumber
+    }
+
+    fun getPreviousComicNumber(): Int {
+        val previousNumber = num - 1
+        if (previousNumber < 1) {
+            throw IsFirstComicExceptions()
+        }
+        return previousNumber
+    }
+}

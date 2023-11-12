@@ -45,6 +45,12 @@ dependencies {
     implementation(libs.material)
     implementation(libs.constraintlayout)
 
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
+    implementation (libs.picasso)
+    implementation (libs.photoView)
+
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.savedstate)
     implementation(libs.androidx.activity.ktx)

@@ -1,12 +1,12 @@
 package com.andreborud.xkcdviewer
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import androidx.activity.viewModels
-import com.andreborud.xkcdviewer.R
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -17,8 +17,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val txt = findViewById<TextView>(R.id.txt)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
 
-        viewModel.testGetComic()
+        // If using BottomNavigationView
+        val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavView.setupWithNavController(navController)
     }
 }

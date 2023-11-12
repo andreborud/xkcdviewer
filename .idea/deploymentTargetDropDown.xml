@@ -11,10 +11,7 @@
       <entry key="ComicDaoTest">
         <State />
       </entry>
-      <entry key="GetComicLocalUseCaseTest">
-        <State />
-      </entry>
-      <entry key="GetSpecificComicUseCaseTest">
+      <entry key="ComicLocalUseCasesTest">
         <State />
       </entry>
       <entry key="app">

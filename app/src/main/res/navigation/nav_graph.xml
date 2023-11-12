@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/comicsFragment">
+
+    <fragment
+        android:id="@+id/comicsFragment"
+        android:name="com.andreborud.xkcdviewer.comics.ComicsFragment"
+        android:label="Comics" />
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.andreborud.xkcdviewer.search.SearchFragment"
+        android:label="Search" />
+
+    <fragment
+        android:id="@+id/savedFragment"
+        android:name="com.andreborud.xkcdviewer.saved.SavedFragment"
+        android:label="Saved" />
+
+</navigation>

@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GetLatestComicRemoteUseCase @Inject constructor(private val comicRemoteDataSource: ComicsRemoteRepositoryImpl) {
 
-    suspend operator fun invoke(): XkcdComic {
+    suspend operator fun invoke(): XkcdComic? {
         return comicRemoteDataSource.getLatestComic()
     }
 

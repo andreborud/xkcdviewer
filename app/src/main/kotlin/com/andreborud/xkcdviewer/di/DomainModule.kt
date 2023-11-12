@@ -8,10 +8,7 @@ import com.andreborud.data.local.ComicsLocalRepository
 import com.andreborud.data.local.ComicsLocalRepositoryImpl
 import com.andreborud.data.remote.ComicApi
 import com.andreborud.data.remote.ComicsRemoteRepositoryImpl
-import com.andreborud.domain.local.DeleteComicLocalUseCase
-import com.andreborud.domain.local.GetAllComicsLocalUseCase
-import com.andreborud.domain.local.GetComicLocalUseCase
-import com.andreborud.domain.local.SaveComicLocalUseCase
+import com.andreborud.domain.local.ComicLocalUseCases
 import com.andreborud.domain.remote.GetLatestComicRemoteUseCase
 import com.andreborud.domain.remote.GetSpecificComicRemoteUseCase
 import com.squareup.moshi.Moshi
@@ -84,22 +81,7 @@ object DomainModule {
     }
 
     @Provides
-    fun provideGetAllComicsLocalUseCase(comicsLocalRepository: ComicsLocalRepository): GetAllComicsLocalUseCase {
-        return GetAllComicsLocalUseCase(comicsLocalRepository)
-    }
-
-    @Provides
-    fun provideGetComicLocalUseCase(comicsLocalRepository: ComicsLocalRepository): GetComicLocalUseCase {
-        return GetComicLocalUseCase(comicsLocalRepository)
-    }
-
-    @Provides
-    fun provideSaveComicLocalUseCase(comicsLocalRepository: ComicsLocalRepository): SaveComicLocalUseCase {
-        return SaveComicLocalUseCase(comicsLocalRepository)
-    }
-
-    @Provides
-    fun provideDeleteComicLocalUseCase(comicsLocalRepository: ComicsLocalRepository): DeleteComicLocalUseCase {
-        return DeleteComicLocalUseCase(comicsLocalRepository)
+    fun provideComicLocalUseCases(comicsLocalRepository: ComicsLocalRepository): ComicLocalUseCases {
+        return ComicLocalUseCases(comicsLocalRepository)
     }
 }

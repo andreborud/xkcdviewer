@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GetSpecificComicRemoteUseCase @Inject constructor(private val comicRemoteDataSource: ComicsRemoteRepositoryImpl) {
 
-    suspend operator fun invoke(index: Int): XkcdComic {
+    suspend operator fun invoke(index: Int): XkcdComic? {
         return comicRemoteDataSource.getSpecificComic(index)
     }
 }
