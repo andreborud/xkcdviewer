@@ -7,12 +7,20 @@
     <fragment
         android:id="@+id/comicsFragment"
         android:name="com.andreborud.xkcdviewer.comics.ComicsFragment"
-        android:label="Comics" />
+        android:label="Comics" >
+        <argument
+            android:name="comicNumber"
+            app:argType="string"/>
+    </fragment>
 
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.andreborud.xkcdviewer.search.SearchFragment"
-        android:label="Search" />
+        android:label="Search" >
+        <action
+            android:id="@+id/action_searchFragment_to_comicsFragment"
+            app:destination="@id/comicsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/savedFragment"

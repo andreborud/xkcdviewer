@@ -14,6 +14,7 @@ buildscript {
 
     dependencies {
         classpath(libs.javapoet)
+        classpath(libs.androidx.navigation.safe.args.gradle.plugin)
     }
 }
 

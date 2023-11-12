@@ -1,5 +1,6 @@
 package com.andreborud.xkcdviewer.comics
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -22,6 +23,8 @@ class ComicsFragment: Fragment(R.layout.fragment_comics) {
 
     private val viewModel: ComicsViewModel by viewModels()
     private val binding by viewBinding(FragmentComicsBinding::bind)
+
+    private val viewOnlyOne by lazy { arguments?.getString("comicNumber") != null }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,14 +57,20 @@ class ComicsFragment: Fragment(R.layout.fragment_comics) {
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 when (state) {
+                    is ComicsState.SaveLatest -> {
+                        val sharedPreferences = requireContext().getSharedPreferences("ComicPrefs", Context.MODE_PRIVATE)
+                        val editor = sharedPreferences.edit()
+                        editor.putInt("latestNumber", state.number)
+                        editor.apply()
+                    }
                     is ComicsState.OnComicDownloaded -> {
                         loadComicImage(state.comic.img)
                         binding.title.text = getString(R.string.comic_title, state.comic.title, state.comic.num.toString())
                         binding.description.text = state.comic.alt
                         binding.description.show(state.comic.alt.isNotEmpty())
                         binding.comicView.setScale(0.8f, true)
-                        binding.next.show(!state.isLatest)
-                        binding.previous.show(!state.isFirst)
+                        binding.next.show(!state.isLatest && !viewOnlyOne)
+                        binding.previous.show(!state.isFirst && !viewOnlyOne)
                         binding.save.setImageResource(if (state.isSaved) R.drawable.ic_bookmark_saved else R.drawable.ic_bookmark)
                     }
                     ComicsState.OnSaved -> {

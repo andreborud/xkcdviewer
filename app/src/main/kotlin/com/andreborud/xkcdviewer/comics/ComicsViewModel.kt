@@ -33,18 +33,26 @@ class ComicsViewModel @Inject constructor(savedStateHandle: SavedStateHandle): V
 
     private var currentComic: XkcdComic? = null
     private var latestComicNumber = -1
+    private val specificComicNumber: String? by lazy { savedStateHandle["comicNumber"] }
 
     init {
         viewModelScope.launch {
-            currentComic = getLatestComicUseCase.invoke()
-            currentComic?.let {
-                latestComicNumber = it.num
-                _state.emit(ComicsState.OnComicDownloaded(
-                    comic = it,
-                    isFirst = it.isFirstComic(),
-                    isLatest = it.isLatestComic(),
-                    isSaved = isSaved(it.num)
-                ))
+            if (specificComicNumber == null) {
+                currentComic = getLatestComicUseCase.invoke()
+                currentComic?.let {
+                    latestComicNumber = it.num
+                    _state.emit(ComicsState.SaveLatest(it.num))
+                    _state.emit(
+                        ComicsState.OnComicDownloaded(
+                            comic = it,
+                            isFirst = it.isFirstComic(),
+                            isLatest = it.isLatestComic(),
+                            isSaved = isSaved(it.num)
+                        )
+                    )
+                }
+            } else {
+                downloadSpecificComic(specificComicNumber!!.toInt())
             }
         }
     }
