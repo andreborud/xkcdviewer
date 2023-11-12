@@ -1,6 +1,7 @@
 package com.andreborud.xkcdviewer.comics
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -46,6 +47,10 @@ class ComicsFragment: Fragment(R.layout.fragment_comics) {
             viewModel.onUser(intent = ComicsIntent.Save)
         }
 
+        binding.explanation.setOnClickListener {
+            viewModel.onUser(intent = ComicsIntent.ShowExplanation)
+        }
+
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 when (state) {
@@ -76,6 +81,9 @@ class ComicsFragment: Fragment(R.layout.fragment_comics) {
                             putExtra(Intent.EXTRA_TEXT, textToShare)
                         }
                         startActivity(Intent.createChooser(shareIntent, getString(R.string.share_title)))
+                    }
+                    is ComicsState.OnShowExplanation -> {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(state.link)))
                     }
                 }
             }

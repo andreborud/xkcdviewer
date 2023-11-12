@@ -86,6 +86,9 @@ class ComicsViewModel @Inject constructor(savedStateHandle: SavedStateHandle): V
             ComicsIntent.Share -> {
                 viewModelScope.launch { _state.emit(ComicsState.OnShare(link = "https://xkcd.com/${currentComic?.num ?: 1}/")) }
             }
+            ComicsIntent.ShowExplanation -> {
+                viewModelScope.launch { _state.emit(ComicsState.OnShowExplanation(link = "https://www.explainxkcd.com/wiki/index.php?title=${currentComic?.num ?: 1}")) }
+            }
         }
     }
 

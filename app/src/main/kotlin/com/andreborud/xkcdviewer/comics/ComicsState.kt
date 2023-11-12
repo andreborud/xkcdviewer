@@ -7,5 +7,6 @@ sealed class ComicsState {
     data object OnSaved : ComicsState()
     data object OnUnsaved : ComicsState()
     data class OnShare(val link: String) : ComicsState()
+    data class OnShowExplanation(val link: String) : ComicsState()
     data class OnError(val message: String) : ComicsState()
 }
