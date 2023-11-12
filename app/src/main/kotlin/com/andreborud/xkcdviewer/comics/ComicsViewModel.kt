@@ -43,7 +43,7 @@ class ComicsViewModel @Inject constructor(savedStateHandle: SavedStateHandle): V
                     comic = it,
                     isFirst = it.isFirstComic(),
                     isLatest = it.isLatestComic(),
-                    isSaved = false
+                    isSaved = isSaved(it.num)
                 ))
             }
         }
@@ -97,11 +97,13 @@ class ComicsViewModel @Inject constructor(savedStateHandle: SavedStateHandle): V
                     comic = it,
                     isFirst = it.isFirstComic(),
                     isLatest = it.isLatestComic(),
-                    isSaved = false
+                    isSaved = isSaved(it.num)
                 ))
             }
         }
     }
+
+    private suspend fun isSaved(number: Int) = comicLocalUseCases.get(number) != null
 
     private fun XkcdComic.isFirstComic() = num == 2
     private fun XkcdComic.isLatestComic() = num == latestComicNumber

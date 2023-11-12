@@ -51,7 +51,9 @@ class ComicsFragment: Fragment(R.layout.fragment_comics) {
                 when (state) {
                     is ComicsState.OnComicDownloaded -> {
                         loadComicImage(state.comic.img)
-                        binding.title.text = state.comic.title
+                        binding.title.text = getString(R.string.comic_title, state.comic.title, state.comic.num.toString())
+                        binding.description.text = state.comic.alt
+                        binding.description.show(state.comic.alt.isNotEmpty())
                         binding.comicView.setScale(0.8f, true)
                         binding.next.show(!state.isLatest)
                         binding.previous.show(!state.isFirst)

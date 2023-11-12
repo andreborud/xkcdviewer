@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toStartOf="@id/save"
-        app:layout_constraintStart_toEndOf="@id/share"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Comics" />
-
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/comic_view"
         android:layout_width="match_parent"
@@ -25,6 +14,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/background"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toStartOf="@id/save"
+        app:layout_constraintStart_toEndOf="@id/share"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Comics" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="88dp"
+        android:background="@drawable/background"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/save"
+        app:layout_constraintStart_toStartOf="@id/share"
+        tools:text="Comics" />
 
     <ProgressBar
         android:id="@+id/loading"
@@ -42,6 +59,7 @@
         android:layout_width="@dimen/_56dp"
         android:layout_height="@dimen/_56dp"
         android:layout_margin="@dimen/_16dp"
+        android:background="@drawable/background"
         android:contentDescription="@string/previous"
         android:padding="@dimen/_8dp"
         android:src="@drawable/ic_skip_previous"
@@ -53,6 +71,7 @@
         android:layout_width="@dimen/_56dp"
         android:layout_height="@dimen/_56dp"
         android:layout_margin="@dimen/_16dp"
+        android:background="@drawable/background"
         android:contentDescription="@string/next"
         android:padding="@dimen/_8dp"
         android:src="@drawable/ic_skip_next"
@@ -64,6 +83,7 @@
         android:layout_width="@dimen/_56dp"
         android:layout_height="@dimen/_56dp"
         android:layout_margin="@dimen/_16dp"
+        android:background="@drawable/background"
         android:contentDescription="@string/save"
         android:padding="@dimen/_8dp"
         android:src="@drawable/ic_bookmark"
@@ -75,6 +95,7 @@
         android:layout_width="@dimen/_56dp"
         android:layout_height="@dimen/_56dp"
         android:layout_margin="@dimen/_16dp"
+        android:background="@drawable/background"
         android:contentDescription="@string/share"
         android:padding="@dimen/_8dp"
         android:src="@drawable/share"

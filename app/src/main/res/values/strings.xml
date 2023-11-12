@@ -9,4 +9,5 @@
     <string name="share">Share</string>
     <string name="share_message">Look at this comic, I think you might find it funny! %1$s</string>
     <string name="share_title">Look at this comic, I think you might find it funny! %1$s</string>
+    <string name="comic_title">%1$s (%2$s)</string>
 </resources>
