@@ -1,14 +1,25 @@
 package com.andreborud.xkcdviewer.di
 
-import com.andreborud.data.ComicApi
-import com.andreborud.data.ComicRemoteDataSource
-import com.andreborud.domain.GetLatestComicUseCase
-import com.andreborud.domain.GetSpecificComicUseCase
+import android.content.Context
+import androidx.room.Room
+import com.andreborud.data.local.ComicDao
+import com.andreborud.data.local.ComicDb
+import com.andreborud.data.local.ComicsLocalRepository
+import com.andreborud.data.local.ComicsLocalRepositoryImpl
+import com.andreborud.data.remote.ComicApi
+import com.andreborud.data.remote.ComicsRemoteRepositoryImpl
+import com.andreborud.domain.local.DeleteComicLocalUseCase
+import com.andreborud.domain.local.GetAllComicsLocalUseCase
+import com.andreborud.domain.local.GetComicLocalUseCase
+import com.andreborud.domain.local.SaveComicLocalUseCase
+import com.andreborud.domain.remote.GetLatestComicRemoteUseCase
+import com.andreborud.domain.remote.GetSpecificComicRemoteUseCase
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -40,19 +51,55 @@ object DomainModule {
     }
 
     @Provides
-    fun provideComicRemoteDataSource(comicApi: ComicApi): ComicRemoteDataSource {
-        return ComicRemoteDataSource(comicApi)
+    fun provideComicRemoteDataSource(comicApi: ComicApi): ComicsRemoteRepositoryImpl {
+        return ComicsRemoteRepositoryImpl(comicApi)
     }
 
     @Provides
-    fun provideGetLatestComicUseCase(comicRemoteDataSource: ComicRemoteDataSource): GetLatestComicUseCase {
-        return GetLatestComicUseCase(comicRemoteDataSource)
+    fun provideGetLatestComicRemoteUseCase(comicsRemoteRepository: ComicsRemoteRepositoryImpl): GetLatestComicRemoteUseCase {
+        return GetLatestComicRemoteUseCase(comicsRemoteRepository)
     }
 
     @Provides
-    fun provideGetSpecificComicUseCase(comicRemoteDataSource: ComicRemoteDataSource): GetSpecificComicUseCase {
-        return GetSpecificComicUseCase(comicRemoteDataSource)
+    fun provideGetSpecificComicRemoteUseCase(comicsRemoteRepository: ComicsRemoteRepositoryImpl): GetSpecificComicRemoteUseCase {
+        return GetSpecificComicRemoteUseCase(comicsRemoteRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext appContext: Context): ComicDb {
+        return Room.databaseBuilder(
+            appContext,
+            ComicDb::class.java,
+            "comic_database"
+        ).build()
+    }
+
+    @Provides
+    fun provideComicDao(comicDb: ComicDb): ComicDao = comicDb.comicDao()
+
+    @Provides
+    fun provideComicRepository(comicDao: ComicDao): ComicsLocalRepository {
+        return ComicsLocalRepositoryImpl(comicDao)
+    }
+
+    @Provides
+    fun provideGetAllComicsLocalUseCase(comicsLocalRepository: ComicsLocalRepository): GetAllComicsLocalUseCase {
+        return GetAllComicsLocalUseCase(comicsLocalRepository)
+    }
+
+    @Provides
+    fun provideGetComicLocalUseCase(comicsLocalRepository: ComicsLocalRepository): GetComicLocalUseCase {
+        return GetComicLocalUseCase(comicsLocalRepository)
+    }
+
+    @Provides
+    fun provideSaveComicLocalUseCase(comicsLocalRepository: ComicsLocalRepository): SaveComicLocalUseCase {
+        return SaveComicLocalUseCase(comicsLocalRepository)
+    }
+
+    @Provides
+    fun provideDeleteComicLocalUseCase(comicsLocalRepository: ComicsLocalRepository): DeleteComicLocalUseCase {
+        return DeleteComicLocalUseCase(comicsLocalRepository)
     }
 }
-
-

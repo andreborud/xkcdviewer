@@ -1,4 +1,4 @@
-package com.andreborud.data
+package com.andreborud.data.remote
 
 import com.andreborud.common.XkcdComic
 import retrofit2.http.GET

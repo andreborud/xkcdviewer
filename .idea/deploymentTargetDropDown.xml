@@ -2,21 +2,17 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="GetLatestComicUseCaseTest">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="$USER_HOME$/.android/avd/5.1_WVGA_API_25.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2023-11-11T17:30:04.620242Z" />
-        </State>
+      <entry key="All Tests">
+        <State />
+      </entry>
+      <entry key="ComicApiTest">
+        <State />
+      </entry>
+      <entry key="ComicDaoTest">
+        <State />
+      </entry>
+      <entry key="GetComicLocalUseCaseTest">
+        <State />
       </entry>
       <entry key="GetSpecificComicUseCaseTest">
         <State />

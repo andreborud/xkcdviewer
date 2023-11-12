@@ -1,9 +1,8 @@
-package com.andreborud.domain
+package com.andreborud.domain.local
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.andreborud.common.XkcdComic
-import com.andreborud.data.ComicApi
-import com.andreborud.data.ComicRemoteDataSource
+import com.andreborud.data.local.ComicsLocalRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -13,17 +12,15 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class GetLatestComicUseCaseTest {
+class GetComicLocalUseCaseTest {
 
-    private lateinit var getLatestComicUseCase: GetLatestComicUseCase
-    private lateinit var mockDataSource: ComicRemoteDataSource
-    private lateinit var mockComicApi: ComicApi
+    private lateinit var getComicLocalUseCase: GetComicLocalUseCase
+    private lateinit var mockRepository: ComicsLocalRepository
 
     @Before
     fun setup() {
-        // Mock ComicApi
-        mockComicApi = mockk(relaxed = true)
-        coEvery { mockComicApi.getLatestComic() } returns XkcdComic(
+        mockRepository = mockk(relaxed = true)
+        coEvery { mockRepository.getComic(any()) } returns XkcdComic(
             month = "11",
             num = 853,
             link = "",
@@ -37,16 +34,12 @@ class GetLatestComicUseCaseTest {
             day = "10"
         )
 
-        // Create ComicRemoteDataSource with the mocked ComicApi
-        mockDataSource = ComicRemoteDataSource(mockComicApi)
-
-        // Instantiate GetLatestComicUseCase with the mock DataSource
-        getLatestComicUseCase = GetLatestComicUseCase(mockDataSource)
+        getComicLocalUseCase = GetComicLocalUseCase(mockRepository)
     }
 
     @Test
-    fun testReturnLatestComic() = runBlocking {
-        // Given
+    fun testGetComic() = runBlocking {
+        val comicNumber = 853
         val expectedComic = XkcdComic(
             month = "11",
             num = 853,
@@ -61,10 +54,7 @@ class GetLatestComicUseCaseTest {
             day = "10"
         )
 
-        // When
-        val result = getLatestComicUseCase.invoke()
-
-        // Then
+        val result = getComicLocalUseCase.invoke(comicNumber)
         assertEquals(expectedComic, result)
     }
 }

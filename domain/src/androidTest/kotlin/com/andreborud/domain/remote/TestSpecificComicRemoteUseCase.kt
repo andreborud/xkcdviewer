@@ -1,9 +1,9 @@
-package com.andreborud.domain
+package com.andreborud.domain.remote
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.andreborud.common.XkcdComic
-import com.andreborud.data.ComicApi
-import com.andreborud.data.ComicRemoteDataSource
+import com.andreborud.data.remote.ComicApi
+import com.andreborud.data.remote.ComicsRemoteRepositoryImpl
 import io.mockk.coEvery
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
@@ -15,13 +15,12 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class GetSpecificComicUseCaseTest {
 
-    private lateinit var getSpecificComicUseCase: GetSpecificComicUseCase
-    private lateinit var mockDataSource: ComicRemoteDataSource
+    private lateinit var getSpecificComicUseCase: GetSpecificComicRemoteUseCase
+    private lateinit var mockDataSource: ComicsRemoteRepositoryImpl
     private lateinit var mockComicApi: ComicApi
 
     @Before
     fun setup() {
-        // Mock ComicApi
         mockComicApi = mockk(relaxed = true)
         coEvery { mockComicApi.getSpecificComic(853) } returns XkcdComic(
             month = "11",
@@ -37,16 +36,12 @@ class GetSpecificComicUseCaseTest {
             day = "10"
         )
 
-        // Create ComicRemoteDataSource with the mocked ComicApi
-        mockDataSource = ComicRemoteDataSource(mockComicApi)
-
-        // Instantiate GetLatestComicUseCase with the mock DataSource
-        getSpecificComicUseCase = GetSpecificComicUseCase(mockDataSource)
+        mockDataSource = ComicsRemoteRepositoryImpl(mockComicApi)
+        getSpecificComicUseCase = GetSpecificComicRemoteUseCase(mockDataSource)
     }
 
     @Test
     fun testReturnLatestComic() = runBlocking {
-        // Given
         val expectedComic = XkcdComic(
             month = "11",
             num = 853,
@@ -61,10 +56,7 @@ class GetSpecificComicUseCaseTest {
             day = "10"
         )
 
-        // When
         val result = getSpecificComicUseCase.invoke(853)
-
-        // Then
         assertEquals(expectedComic, result)
     }
 }

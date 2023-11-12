@@ -1,11 +1,8 @@
-package com.andreborud.data
+package com.andreborud.data.remote
 
 import com.andreborud.common.XkcdComic
 
-interface ComicsDataSource {
-
+interface ComicsRemoteRepository {
     suspend fun getLatestComic(): XkcdComic
-
     suspend fun getSpecificComic(index: Int): XkcdComic
-
 }
