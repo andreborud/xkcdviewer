@@ -3,6 +3,9 @@ package com.andreborud.xkcdviewer.extensions
 import android.text.InputFilter
 import android.text.Spanned
 
+/**
+ * Input filter for when the user can search for specific comics, limiting the input to only allow comic issues which exist
+ */
 class ComicNumberFilter(private val min: Int, private val max: Int) : InputFilter {
 
     override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {

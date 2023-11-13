@@ -12,6 +12,5 @@ import dagger.hilt.components.SingletonComponent
 interface DomainEntryPoint {
     fun provideGetLatestComicsRemoteUseCase(): GetLatestComicRemoteUseCase
     fun provideGetSpecificComicRemoteUseCase(): GetSpecificComicRemoteUseCase
-
     fun provideComicLocalUseCases(): ComicLocalUseCases
 }

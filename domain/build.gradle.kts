@@ -42,7 +42,6 @@ dependencies {
     implementation(project(":data"))
 
     implementation(libs.hiltAndroid)
-    implementation(libs.firebase.firestore.ktx)
     implementation(libs.androidx.junit.ktx)
     ksp(libs.hilt.android.compiler)
 

@@ -40,32 +40,33 @@ class ComicsViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : 
     private val specificComicNumber: String? by lazy { savedStateHandle[ComicsFragment.COMIC_NUMBER] }
     private val savedComic: XkcdComic? by lazy { savedStateHandle[ComicsFragment.COMIC] }
 
-    init {
-
-    }
-
     fun onUser(intent: ComicsIntent) {
         when (intent) {
             ComicsIntent.Resume -> {
                 viewModelScope.launch {
+                    // If ComicsFragment was not opened with a specific comic load the latest one and store the number
                     if (specificComicNumber == null && savedComic == null) {
-                        if (currentComic == null)
-                            currentComic = getLatestComicUseCase.invoke()
-                        currentComic?.let {
-                            latestComicNumber = it.num
-                            _state.emit(ComicsState.SaveLatest(it.num))
-                            _state.emit(
-                                ComicsState.OnComicDownloaded(
-                                    comic = it,
-                                    isFirst = it.isFirstComic(),
-                                    isLatest = it.isLatestComic(),
-                                    isSaved = isSaved(it.num)
+                        try {
+                            if (currentComic == null)
+                                currentComic = getLatestComicUseCase.invoke()
+                            currentComic?.let {
+                                latestComicNumber = it.num
+                                _state.emit(ComicsState.SaveLatest(it.num))
+                                _state.emit(
+                                    ComicsState.OnComicDownloaded(
+                                        comic = it,
+                                        isFirst = it.isFirstComic(),
+                                        isLatest = it.isLatestComic(),
+                                        isSaved = isSaved(it.num)
+                                    )
                                 )
-                            )
+                            }
+                        } catch (e: Exception) {
+                            viewModelScope.launch { _state.emit(ComicsState.OnError(message = "An error occurred")) }
                         }
-                    } else if (specificComicNumber != null) {
+                    } else if (specificComicNumber != null) { // If Coming from search we should load a specific comic
                         loadSpecificComic(specificComicNumber!!.toInt())
-                    } else {
+                    } else { // If Coming from save we should load that comic from db and image from local storage
                         val image = imagePersistence.loadComicImage(savedComic!!.num)
                         _state.emit(ComicsState.OnLoadSaved(comic = savedComic!!, image))
                     }
@@ -93,6 +94,7 @@ class ComicsViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : 
             }
 
             ComicsIntent.Save -> {
+                // When user clicks save we need to remove it from the db, or save it if it wasn't already
                 val comic = currentComic ?: savedComic
                 comic?.let {
                     viewModelScope.launch {
@@ -122,16 +124,20 @@ class ComicsViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : 
 
     private fun loadSpecificComic(number: Int) {
         viewModelScope.launch {
-            currentComic = getSpecificComicRemoteUseCase.invoke(number)
-            currentComic?.let {
-                _state.emit(
-                    ComicsState.OnComicDownloaded(
-                        comic = it,
-                        isFirst = it.isFirstComic(),
-                        isLatest = it.isLatestComic(),
-                        isSaved = isSaved(number)
+            try {
+                currentComic = getSpecificComicRemoteUseCase.invoke(number)
+                currentComic?.let {
+                    _state.emit(
+                        ComicsState.OnComicDownloaded(
+                            comic = it,
+                            isFirst = it.isFirstComic(),
+                            isLatest = it.isLatestComic(),
+                            isSaved = isSaved(number)
+                        )
                     )
-                )
+                }
+            } catch (e: Exception) {
+                viewModelScope.launch { _state.emit(ComicsState.OnError(message = "An error occurred")) }
             }
         }
     }

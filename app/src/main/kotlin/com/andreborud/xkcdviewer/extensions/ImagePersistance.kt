@@ -8,6 +8,9 @@ import com.squareup.picasso.Picasso
 import java.io.FileOutputStream
 import javax.inject.Inject
 
+/**
+ * Class to handle the storing and loading of images locally
+ */
 class ImagePersistence @Inject constructor(private val context: Context) {
 
     fun saveComicImage(url: String, comicNumber: Int) {
@@ -15,14 +18,10 @@ class ImagePersistence @Inject constructor(private val context: Context) {
             .load(url)
             .into(object : com.squareup.picasso.Target {
                 override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
-                    // Save bitmap to file for offline use
                     saveImageToFile(bitmap, comicNumber)
                 }
 
-                override fun onBitmapFailed(e: Exception, errorDrawable: Drawable?) {
-                    // Handle failure
-                }
-
+                override fun onBitmapFailed(e: Exception, errorDrawable: Drawable?) { }
                 override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
             })
     }

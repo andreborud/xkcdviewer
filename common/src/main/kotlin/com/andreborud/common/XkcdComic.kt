@@ -21,6 +21,7 @@ data class XkcdComic(
     val year: String
 ): Serializable {
 
+    // Get the next available comic number or throw an exception if already on the last one
     fun getNextComicNumber(latestNumber: Int): Int {
         val nextNumber = num + 1
         if (nextNumber > latestNumber) {
@@ -29,6 +30,7 @@ data class XkcdComic(
         return nextNumber
     }
 
+    // Get the previous available comic number or throw an exception if already on the first one
     fun getPreviousComicNumber(): Int {
         val previousNumber = num - 1
         if (previousNumber < 1) {

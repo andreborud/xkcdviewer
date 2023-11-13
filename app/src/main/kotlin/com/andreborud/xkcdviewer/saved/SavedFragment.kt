@@ -26,6 +26,7 @@ class SavedFragment: Fragment(R.layout.fragment_saved) {
 
         binding.loading.show(true)
 
+        // Setup the state collector to listen to state changes from the viewModel
         lifecycleScope.launch {
             viewModel.state.collect { state ->
                 when (state) {

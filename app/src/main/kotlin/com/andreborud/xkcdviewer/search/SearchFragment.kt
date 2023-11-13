@@ -23,22 +23,24 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Load the number of the latest comic to improve the hint in the search field for the user
         val sharedPreferences = requireContext().getSharedPreferences(ComicsFragment.PREFS, Context.MODE_PRIVATE)
         val latestComicNumber = sharedPreferences.getInt(ComicsFragment.LATEST, 1)
         binding.search.hint = getString(R.string.search_hint, latestComicNumber.toString())
+        // Add a text filter so the user can only enter number between the first and last issues
         binding.search.filters = arrayOf(ComicNumberFilter(1, latestComicNumber))
-
         binding.search.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 loadComicsFragment(v.text.toString())
                 hideSoftKeyboard()
-                true // Return true, action handled
+                true
             } else {
-                false // Return false, action not handled
+                false
             }
         }
     }
 
+    // When searching for a comic load the ComicsFragment into the view.
     private fun loadComicsFragment(comicNumber: String) {
         val fragment = ComicsFragment().apply {
             arguments = Bundle().apply {

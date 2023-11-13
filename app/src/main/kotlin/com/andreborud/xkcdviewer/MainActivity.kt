@@ -11,17 +11,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Setup the navigation controller
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-
-        // If using BottomNavigationView
         val bottomNavView: BottomNavigationView = findViewById(R.id.bottom_navigation)
-        bottomNavView.setupWithNavController(navController)
+        bottomNavView.setupWithNavController(navHostFragment.navController)
     }
 }

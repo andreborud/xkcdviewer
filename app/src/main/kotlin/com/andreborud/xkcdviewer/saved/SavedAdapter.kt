@@ -27,7 +27,6 @@ class SavedAdapter (private val comics: List<XkcdComic>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicViewHolder {
-
         return ComicViewHolder(
             ItemSavedComicBinding.inflate(LayoutInflater.from(parent.context), parent, false),
             onItemClick, onSavedClick)
